@@ -64,7 +64,7 @@ namespace OpenSource.Data.HashFunction.Test
             var sw = new Stopwatch();
 
             foreach (var testHashFunction in TestHashFunctions.OrderBy(kv => kv.Key))
-            {                
+            {
                 // Test if computeHash results in a valid test and initialize any lazy settings
                 if (!computeHash(sw, testHashFunction.Value, testBytes))
                     continue;
@@ -73,7 +73,7 @@ namespace OpenSource.Data.HashFunction.Test
 
 
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
-#if !NETCOREAPP1_1
+#if !NETCOREAPP1_1_OR_GREATER
                 Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 #endif
 
@@ -87,7 +87,7 @@ namespace OpenSource.Data.HashFunction.Test
 
 
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
-#if !NETCOREAPP1_1
+#if !NETCOREAPP1_1_OR_GREATER
                 Thread.CurrentThread.Priority = ThreadPriority.Normal;
 #endif
 
@@ -99,7 +99,7 @@ namespace OpenSource.Data.HashFunction.Test
                     totalBytesComputedAgainst / 1048576.0d / sw.Elapsed.TotalSeconds,
                     totalBytesComputedAgainst,
                     sw.ElapsedMilliseconds);
-                
+
                 sw.Reset();
             }
         }
@@ -142,7 +142,7 @@ namespace OpenSource.Data.HashFunction.Test
             (new Random())
                 .NextBytes(testBytes);
 
-            
+
 
             var sw = new Stopwatch();
 
@@ -157,13 +157,13 @@ namespace OpenSource.Data.HashFunction.Test
 
                 // Real test
                 computeHash(sw, testHashFunction.Value, MULTIPLE_ITEMS_COUNT, testBytes);
-                
+
                 Console.WriteLine("{0, -40} {1:F2} MB/s ({2} B in {3:F3} ms)",
                     testHashFunction.Key + ":",
                     (testBytes.Length * MULTIPLE_ITEMS_COUNT) / (1048510.0d) / ((double) sw.ElapsedTicks / TimeSpan.TicksPerSecond),
                     testBytes.Length * MULTIPLE_ITEMS_COUNT,
                     ((double)sw.ElapsedTicks / TimeSpan.TicksPerMillisecond));
-                
+
                 sw.Reset();
             }
         }

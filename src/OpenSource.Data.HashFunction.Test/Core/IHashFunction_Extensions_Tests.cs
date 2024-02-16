@@ -296,12 +296,12 @@ namespace OpenSource.Data.HashFunction.Test
                     BitConverter.GetBytes(value));
             }
 
-#if !NETCOREAPP1_1
+#if !NETCOREAPP1_1_OR_GREATER
 
             [Fact]
             public void IHashFunction_Extensions_ComputeHash_WithDesiredBits_TModel()
             {
-                var value = new Dictionary<string, int>() { 
+                var value = new Dictionary<string, int>() {
                 {"Test", 5 },
                 {"Foo", 20 },
                 {"Bar", 40 }
@@ -319,7 +319,6 @@ namespace OpenSource.Data.HashFunction.Test
             }
 
 #endif
-
 
             private void AssertSugar(Action<IHashFunction, int> action, byte[] data)
             {
@@ -366,9 +365,9 @@ namespace OpenSource.Data.HashFunction.Test
             foreach (var knownValue in knownValues)
             {
                 Assert.Equal(
-                    knownValue.Value, 
+                    knownValue.Value,
                     hashFunction.ComputeHash(
-                            TestConstants.FooBar, 
+                            TestConstants.FooBar,
                             knownValue.Key)
                         .Hash);
             }

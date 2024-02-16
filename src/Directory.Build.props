@@ -1,5 +1,7 @@
 <Project>
   <PropertyGroup>
-    <PackageIdPrefix>OpenSource</PackageIdPrefix>
+    <PackageIdPrefix>DaiPlusPlus</PackageIdPrefix>
+    <!-- CheckEolTargetFramework is used to suppress NETSDK1138 warnings about targeting out-of-support targets, like net5.0. -->
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 </Project>
