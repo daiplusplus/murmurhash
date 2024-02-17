@@ -29,12 +29,6 @@ vcs-revision: $(VcsRevision)
     </PackageReleaseNotes>
   </PropertyGroup>
 
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DebugType>full</DebugType>
-    <DebugSymbols>True</DebugSymbols>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\FriendAssemblies.cs" Link="Properties\FriendAssemblies.cs" />
     <Compile Include="..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />

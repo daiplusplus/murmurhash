@@ -3,5 +3,12 @@
     <PackageIdPrefix>DaiPlusPlus</PackageIdPrefix>
     <!-- CheckEolTargetFramework is used to suppress NETSDK1138 warnings about targeting out-of-support targets, like net5.0. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+
+    <!-- With .NET SDK 7.0+, see my reply here: https://github.com/dotnet/msbuild/issues/2169  -->
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+
+    <DefineConstants Condition="$(Configuration)=='Debug'"  >$(DefineConstants);DEBUG</DefineConstants>
+    <Optimize        Condition="$(Configuration)=='Release'">true</Optimize>
   </PropertyGroup>
 </Project>
