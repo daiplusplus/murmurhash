@@ -254,15 +254,15 @@ namespace OpenSource.Data.HashFunction.MurmurHash
 
             protected override IHashValue FinalizeHashValueInternal(CancellationToken cancellationToken)
             {
-                var remainder = FinalizeInputBuffer;
-                var remainderCount = (remainder?.Length).GetValueOrDefault();
+				Byte[]? remainder = FinalizeInputBuffer;
+				Int32 remainderCount = remainder?.Length ?? 0;
 
-                var tempHashValue1 = _hashValue1;
-                var tempHashValue2 = _hashValue2;
+				UInt64 tempHashValue1 = _hashValue1;
+				UInt64 tempHashValue2 = _hashValue2;
 
-                var tempBytesProcessed = _bytesProcessed;
+				Int32 tempBytesProcessed = _bytesProcessed;
 
-                if (remainderCount > 0)
+                if (remainder != null && remainderCount > 0)
                 {
                     UInt64 k1 = 0;
                     UInt64 k2 = 0;
@@ -277,8 +277,8 @@ namespace OpenSource.Data.HashFunction.MurmurHash
                         case 10: k2 ^= (UInt64) remainder[ 9] <<  8;   goto case 9;
                         case  9:
                             k2 ^= ((UInt64) remainder[8]);
-                            k2 *= c2_128; 
-                            k2  = RotateLeft(k2, 33); 
+                            k2 *= c2_128;
+                            k2  = RotateLeft(k2, 33);
                             k2 *= c1_128;
                             tempHashValue2 ^= k2;
 
@@ -294,7 +294,7 @@ namespace OpenSource.Data.HashFunction.MurmurHash
                         case  4: k1 ^= (UInt64) remainder[3] << 24;    goto case 3;
                         case  3: k1 ^= (UInt64) remainder[2] << 16;    goto case 2;
                         case  2: k1 ^= (UInt64) remainder[1] <<  8;    goto case 1;
-                        case  1: 
+                        case  1:
                             k1 ^= (UInt64) remainder[0];
                             break;
                     }
@@ -320,7 +320,7 @@ namespace OpenSource.Data.HashFunction.MurmurHash
                 tempHashValue1 += tempHashValue2;
                 tempHashValue2 += tempHashValue1;
 
-                var hashValueBytes = BitConverter.GetBytes(tempHashValue1)
+				Byte[] hashValueBytes = BitConverter.GetBytes(tempHashValue1)
                     .Concat(BitConverter.GetBytes(tempHashValue2))
                     .ToArray();
 

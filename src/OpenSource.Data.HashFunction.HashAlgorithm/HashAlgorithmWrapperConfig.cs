@@ -21,7 +21,7 @@ namespace OpenSource.Data.HashFunction.HashAlgorithm
         /// <value>
         /// The delegate.
         /// </value>
-        public Func<HashAlgorithm> InstanceFactory { get; set; }
+        public Func<HashAlgorithm>? InstanceFactory { get; set; }
 
 
 
@@ -29,7 +29,7 @@ namespace OpenSource.Data.HashFunction.HashAlgorithm
         /// Makes a deep clone of current instance.
         /// </summary>
         /// <returns>A deep clone of the current instance.</returns>
-        public IHashAlgorithmWrapperConfig Clone() => 
+        public IHashAlgorithmWrapperConfig Clone() =>
             new HashAlgorithmWrapperConfig() {
                 InstanceFactory = InstanceFactory
             };

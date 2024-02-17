@@ -99,7 +99,7 @@ namespace OpenSource.Data.HashFunction.Core.Utilities
             var formatString = uppercase ? "X2" : "x2";
 
             foreach (var byteValue in Hash)
-                stringBuilder.Append(byteValue.ToString(formatString));
+                _ = stringBuilder.Append(byteValue.ToString(formatString));
 
             return stringBuilder.ToString();
         }
@@ -109,7 +109,7 @@ namespace OpenSource.Data.HashFunction.Core.Utilities
         /// Returns a hash code for this instance.
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
         public override int GetHashCode()
         {
@@ -133,7 +133,7 @@ namespace OpenSource.Data.HashFunction.Core.Utilities
         /// <returns>
         ///   <c>true</c> if the specified <see cref="Object" /> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as IHashValue);
         }
@@ -145,7 +145,7 @@ namespace OpenSource.Data.HashFunction.Core.Utilities
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other" /> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public bool Equals(IHashValue other)
+        public bool Equals(IHashValue? other)
         {
             if (other == null || other.BitLength != BitLength)
                 return false;

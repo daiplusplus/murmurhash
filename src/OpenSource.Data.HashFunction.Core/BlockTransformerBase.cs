@@ -10,7 +10,7 @@ namespace OpenSource.Data.HashFunction.Core
 {
     /// <summary>
     /// Base implementation for an internal state of an iteratively computable hash function value.
-    /// 
+    ///
     /// Provides buffering and cancellation handling features.
     /// </summary>
     /// <typeparam name="TSelf">The final derived type to use when cloning.</typeparam>
@@ -31,14 +31,14 @@ namespace OpenSource.Data.HashFunction.Core
         /// <summary>
         /// The input buffer that should be fetched during the <see cref="FinalizeHashValueInternal(CancellationToken)" /> methods.
         /// </summary>
-        protected byte[] FinalizeInputBuffer { get => _inputBuffer; }
+        protected byte[]? FinalizeInputBuffer { get => _inputBuffer; }
 
         private readonly int _cancellationBatchSize;
         private readonly int _inputBlockSize;
 
-        private byte[] _inputBuffer = null;
+        private byte[]? _inputBuffer = null;
         private bool _isCorrupted = false;
-        
+
 
         /// <summary>
         /// Construct <see cref="BlockTransformerBase{TSelf}"/> with optional parameters to configure features.
@@ -236,6 +236,8 @@ namespace OpenSource.Data.HashFunction.Core
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to cease processing of the provided data.</param>
         protected void TransformBytesInternal(ArraySegment<byte> data, CancellationToken cancellationToken)
         {
+            if(data.Array is null) throw new ArgumentException(message: "data.Array cannot be null.", paramName: nameof(data));
+
             var dataArray = data.Array;
             var dataCurrentOffset = data.Offset;
             var dataRemainingCount = data.Count;
@@ -244,7 +246,7 @@ namespace OpenSource.Data.HashFunction.Core
             var processingRemainder = totalBytesToProcess % _inputBlockSize;
 
             // Determine how many bytes will inevitably be rolled over into the next input buffer and prepare that buffer.
-            byte[] nextInputBuffer = null;
+            byte[]? nextInputBuffer = null;
             {
                 if (processingRemainder > 0)
                 {
@@ -327,7 +329,7 @@ namespace OpenSource.Data.HashFunction.Core
 
         /// <summary>
         /// Updates the internal state of this transformer with the given data.
-        /// 
+        ///
         /// The data's size will be a multiple of the provided inputBlockSize in the constructor.
         /// </summary>
         /// <param name="data">The data to process into this transformer's internal state.</param>

@@ -63,24 +63,22 @@ namespace OpenSource.Data.HashFunction.MurmurHash
             }
         }
 
-
-
         protected IHashValue ComputeHash32(ArraySegment<byte> data, CancellationToken cancellationToken)
         {
-            var dataArray = data.Array;
-            var dataOffset = data.Offset;
-            var dataCount = data.Count;
+            Byte[] dataArray = data.Array;
+            Int32 dataOffset = data.Offset;
+            Int32 dataCount = data.Count;
 
-            var endOffset = dataOffset + dataCount;
-            var remainderCount = dataCount % 4;
+            Int32 endOffset = dataOffset + dataCount;
+            Int32 remainderCount = dataCount % 4;
 
             UInt32 hashValue = (UInt32) _config.Seed ^ (UInt32) dataCount;
 
             // Process 4-byte groups
             {
-                var groupEndOffset = endOffset - remainderCount;
+                Int32 groupEndOffset = endOffset - remainderCount;
 
-                for (var currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 4)
+                for ( Int32 currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 4)
                 {
                     UInt32 k = BitConverter.ToUInt32(dataArray, currentOffset);
 
@@ -96,7 +94,7 @@ namespace OpenSource.Data.HashFunction.MurmurHash
             // Process remainder
             if (remainderCount > 0)
             {
-                var remainderOffset = endOffset - remainderCount;
+                Int32 remainderOffset = endOffset - remainderCount;
 
                 switch (remainderCount)
                 {
@@ -119,23 +117,23 @@ namespace OpenSource.Data.HashFunction.MurmurHash
                 BitConverter.GetBytes(hashValue),
                 32);
         }
-        
+
         protected IHashValue ComputeHash64(ArraySegment<byte> data, CancellationToken cancellationToken)
         {
-            var dataArray = data.Array;
-            var dataOffset = data.Offset;
-            var dataCount = data.Count;
+            Byte[]? dataArray = data.Array;
+            Int32 dataOffset = data.Offset;
+            Int32 dataCount = data.Count;
 
-            var endOffset = dataOffset + dataCount;
-            var remainderCount = dataCount % 8;
+            Int32 endOffset = dataOffset + dataCount;
+            Int32 remainderCount = dataCount % 8;
 
             UInt64 hashValue = _config.Seed ^ ((UInt64) dataCount * _mixConstant64);
 
             // Process 8-byte groups
             {
-                var groupEndOffset = endOffset - remainderCount;
+                Int32 groupEndOffset = endOffset - remainderCount;
 
-                for (var currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 8)
+                for ( Int32 currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 8)
                 {
                     UInt64 k = BitConverter.ToUInt64(dataArray, currentOffset);
 
@@ -151,7 +149,7 @@ namespace OpenSource.Data.HashFunction.MurmurHash
             // Process remainder
             if (remainderCount > 0)
             {
-                var remainderOffset = endOffset - remainderCount;
+                Int32 remainderOffset = endOffset - remainderCount;
 
                 switch (remainderCount)
                 {

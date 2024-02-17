@@ -16,7 +16,7 @@ namespace OpenSource.Data.HashFunction.FNV.Utilities
 
 
 
-        private static readonly ConcurrentDictionary<(BigInteger, int), IReadOnlyList<UInt32>> _calculatedUintArrays = 
+        private static readonly ConcurrentDictionary<(BigInteger, int), IReadOnlyList<UInt32>> _calculatedUintArrays =
             new ConcurrentDictionary<(BigInteger, int), IReadOnlyList<uint>>();
 
 
@@ -25,13 +25,13 @@ namespace OpenSource.Data.HashFunction.FNV.Utilities
             Debug.Assert(prime != null);
             Debug.Assert(offset != null);
 
-            Prime = prime;
-            Offset = offset;
+            Prime = prime!;
+            Offset = offset!;
         }
 
 
         public static FNVPrimeOffset Create(int bitSize, BigInteger prime, BigInteger offset)
-        { 
+        {
             if (bitSize <= 0 || bitSize % 32 != 0)
                 throw new ArgumentOutOfRangeException(nameof(bitSize), $"{nameof(bitSize)} must be a positive a multiple of 32.");
 

@@ -39,20 +39,20 @@ namespace OpenSource.Data.HashFunction.MurmurHash
 
         protected override IHashValue ComputeHashInternal(ArraySegment<byte> data, CancellationToken cancellationToken)
         {
-            var dataArray = data.Array;
-            var dataOffset = data.Offset;
-            var dataCount = data.Count;
+			Byte[]? dataArray = data.Array;
+			Int32 dataOffset = data.Offset;
+			Int32 dataCount = data.Count;
 
-            var endOffset = dataOffset + dataCount;
-            var remainderCount = dataCount % 4;
+			Int32 endOffset = dataOffset + dataCount;
+			Int32 remainderCount = dataCount % 4;
 
             UInt32 hashValue = _config.Seed ^ ((UInt32) dataCount * _m);
 
             // Process 4-byte groups
             {
-                var groupEndOffset = endOffset - remainderCount;
+				Int32 groupEndOffset = endOffset - remainderCount;
 
-                for (var currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 4)
+                for ( Int32 currentOffset = dataOffset; currentOffset < groupEndOffset; currentOffset += 4)
                 {
                     hashValue += BitConverter.ToUInt32(dataArray, currentOffset);
                     hashValue *= _m;
@@ -63,7 +63,7 @@ namespace OpenSource.Data.HashFunction.MurmurHash
             // Process remainder
             if (remainderCount > 0)
             {
-                var remainderOffset = endOffset - remainderCount;
+				Int32 remainderOffset = endOffset - remainderCount;
 
                 switch (remainderCount)
                 {

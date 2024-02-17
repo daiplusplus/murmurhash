@@ -227,7 +227,7 @@ namespace OpenSource.Data.HashFunction.SpookyHash
                     _hashValue[2]
                 };
 
-                byte[] dataArray = null;
+                byte[]? dataArray = null;
                 int dataCount; 
                 {
                     var shortHashBufferLength = _bytesProcessed;

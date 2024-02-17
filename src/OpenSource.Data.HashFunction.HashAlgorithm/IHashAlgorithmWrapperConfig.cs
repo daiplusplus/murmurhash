@@ -17,9 +17,9 @@ namespace OpenSource.Data.HashFunction.HashAlgorithm
         /// <value>
         /// The delegate.
         /// </value>
-        Func<HashAlgorithm> InstanceFactory { get; }
+        Func<HashAlgorithm>? InstanceFactory { get; }
 
-        
+
 
         /// <summary>
         /// Makes a deep clone of current instance.

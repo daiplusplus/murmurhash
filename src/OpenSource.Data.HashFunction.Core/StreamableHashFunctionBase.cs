@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+#if NETCOREAPP3_1_OR_GREATER
+using System.Buffers;
+#endif
+
 namespace OpenSource.Data.HashFunction.Core
 {
     /// <summary>
@@ -113,6 +117,7 @@ namespace OpenSource.Data.HashFunction.Core
         /// <exception cref="TaskCanceledException">The <paramref name="cancellationToken"/> was canceled.</exception>
         protected override IHashValue ComputeHashInternal(ArraySegment<byte> data, CancellationToken cancellationToken)
         {
+            if(data.Array is null) throw new ArgumentException(message: "data.Array cannot be null.", paramName: nameof(data));
             cancellationToken.ThrowIfCancellationRequested();
 
             using (var memoryStream = new MemoryStream(data.Array, data.Offset, data.Count, false))
@@ -169,6 +174,28 @@ namespace OpenSource.Data.HashFunction.Core
         protected async Task<IHashValue> ComputeHashAsyncInternal(Stream data, CancellationToken cancellationToken)
         {
             var blockTransformer = CreateBlockTransformer();
+
+#if NETCOREAPP3_1_OR_GREATER
+
+			Byte[] rentedBuffer = ArrayPool<Byte>.Shared.Rent( minimumLength: 4096 );
+			try
+			{
+				var asMemory = rentedBuffer.AsMemory(0, 4096);
+				while (true)
+				{
+					var bytesRead = await data.ReadAsync(asMemory, cancellationToken).ConfigureAwait(false);
+					if (bytesRead == 0) break;
+					blockTransformer.TransformBytes(rentedBuffer, 0, bytesRead, cancellationToken);
+				}
+
+				return blockTransformer.FinalizeHashValue(cancellationToken);
+			}
+			finally
+			{
+				ArrayPool<Byte>.Shared.Return( rentedBuffer );
+			}
+
+#else
             var buffer = new byte[4096];
 
             while (true)
@@ -183,6 +210,9 @@ namespace OpenSource.Data.HashFunction.Core
             }
 
             return blockTransformer.FinalizeHashValue(cancellationToken);
+#endif
+
+
         }
 
 

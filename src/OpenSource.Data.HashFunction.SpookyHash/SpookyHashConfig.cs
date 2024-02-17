@@ -5,7 +5,7 @@ using System.Text;
 namespace OpenSource.Data.HashFunction.SpookyHash
 {
     /// <summary>
-    /// Defines a configuration for a <see cref="ISpookyHash"/> implementation.
+    /// Defines a configuration for a <see cref="ISpookyHashV1"/> or <see cref="ISpookyHashV2"/> implementation.
     /// </summary>
     public class SpookyHashConfig
         : ISpookyHashConfig
